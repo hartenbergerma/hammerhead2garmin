@@ -24,7 +24,7 @@ jobs:
 
       - name: Run sync
         env:
-          SYNC_FROM_DATE: '2026-06-01'
+          SYNC_FROM_DATE: ${{ vars.SYNC_FROM_DATE }}
           HAMMERHEAD_CLIENT_ID: ${{ secrets.HAMMERHEAD_CLIENT_ID }}
           HAMMERHEAD_CLIENT_SECRET: ${{ secrets.HAMMERHEAD_CLIENT_SECRET }}
           HAMMERHEAD_USERNAME: ${{ secrets.HAMMERHEAD_USERNAME }}

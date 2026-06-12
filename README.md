@@ -46,6 +46,6 @@ SYNC_FROM_DATE=2026-06-01
 The included workflow runs the sync daily at 06:00 UTC:
 
 1. Fork this repo
-2. Create an environment named `garmin-sync` under **Settings → Environments** and add your credentials as secrets:
-   `HAMMERHEAD_CLIENT_ID`, `HAMMERHEAD_CLIENT_SECRET`, `HAMMERHEAD_USERNAME`, `HAMMERHEAD_PASSWORD`, `GARMIN_USERNAME`, `GARMIN_PASSWORD`
-3. Set `SYNC_FROM_DATE` in the workflow file ([`.github/workflows/sync.yml`](.github/workflows/sync.yml)) to the earliest date you want to sync from — only used on the very first run
+2. Create an environment named `garmin-sync` under **Settings → Environments** and add:
+   - Secrets: `HAMMERHEAD_CLIENT_ID`, `HAMMERHEAD_CLIENT_SECRET`, `HAMMERHEAD_USERNAME`, `HAMMERHEAD_PASSWORD`, `GARMIN_USERNAME`, `GARMIN_PASSWORD`
+   - Variable: `SYNC_FROM_DATE` — the earliest date to sync from in `YYYY-MM-DD` format (e.g. `2026-06-01`), only used on the very first run, then the last sync date is used
