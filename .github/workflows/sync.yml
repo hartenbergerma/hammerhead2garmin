@@ -8,16 +8,23 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # needed to commit sync_state.json back
+    environment: garmin-sync
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Restore sync state
+        uses: actions/cache@v4
+        with:
+          path: sync_state.json
+          key: sync-state-${{ github.run_id }}
+          restore-keys: sync-state-
 
       - uses: astral-sh/setup-uv@v5
 
       - name: Run sync
         env:
+          SYNC_FROM_DATE: '2026-06-01'
           HAMMERHEAD_CLIENT_ID: ${{ secrets.HAMMERHEAD_CLIENT_ID }}
           HAMMERHEAD_CLIENT_SECRET: ${{ secrets.HAMMERHEAD_CLIENT_SECRET }}
           HAMMERHEAD_USERNAME: ${{ secrets.HAMMERHEAD_USERNAME }}
@@ -25,11 +32,3 @@ jobs:
           GARMIN_USERNAME: ${{ secrets.GARMIN_USERNAME }}
           GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
         run: uv run python main.py
-
-      - name: Commit updated sync state
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add sync_state.json
-          git diff --cached --quiet || git commit -m "chore: update sync state [skip ci]"
-          git push

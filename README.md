@@ -43,11 +43,9 @@ SYNC_FROM_DATE=2026-06-01
 
 ## Automated daily sync via GitHub Actions
 
-The included workflow runs the sync once a day for free — public repos get unlimited minutes, private repos are well within the 2,000 free minutes/month.
+The included workflow runs the sync daily at 06:00 UTC:
 
 1. Fork this repo
-2. Add your credentials as secrets under **Settings → Secrets and variables → Actions**:
+2. Create an environment named `garmin-sync` under **Settings → Environments** and add your credentials as secrets:
    `HAMMERHEAD_CLIENT_ID`, `HAMMERHEAD_CLIENT_SECRET`, `HAMMERHEAD_USERNAME`, `HAMMERHEAD_PASSWORD`, `GARMIN_USERNAME`, `GARMIN_PASSWORD`
-3. Commit your current `sync_state.json` so the first run continues from where you left off
-
-The workflow runs daily at 06:00 UTC and commits the updated `sync_state.json` back to the repo. You can also trigger it manually from the Actions tab.
+3. Set `SYNC_FROM_DATE` in the workflow file ([`.github/workflows/sync.yml`](.github/workflows/sync.yml)) to the earliest date you want to sync from — only used on the very first run
