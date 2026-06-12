@@ -1,0 +1,35 @@
+name: Sync Hammerhead → Garmin
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # daily at 06:00 UTC — adjust to taste
+  workflow_dispatch:       # allow manual runs from the Actions tab
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to commit sync_state.json back
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Run sync
+        env:
+          HAMMERHEAD_CLIENT_ID: ${{ secrets.HAMMERHEAD_CLIENT_ID }}
+          HAMMERHEAD_CLIENT_SECRET: ${{ secrets.HAMMERHEAD_CLIENT_SECRET }}
+          HAMMERHEAD_USERNAME: ${{ secrets.HAMMERHEAD_USERNAME }}
+          HAMMERHEAD_PASSWORD: ${{ secrets.HAMMERHEAD_PASSWORD }}
+          GARMIN_USERNAME: ${{ secrets.GARMIN_USERNAME }}
+          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+        run: uv run python main.py
+
+      - name: Commit updated sync state
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add sync_state.json
+          git diff --cached --quiet || git commit -m "chore: update sync state [skip ci]"
+          git push
