@@ -11,16 +11,16 @@ jobs:
     environment: garmin-sync
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Restore sync state
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: sync_state.json
           key: sync-state-${{ github.run_id }}
           restore-keys: sync-state-
 
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v8
 
       - name: Run sync
         env:
