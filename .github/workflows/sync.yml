@@ -2,7 +2,7 @@ name: Sync Hammerhead → Garmin
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # daily at 06:00 UTC — adjust to taste
+    - cron: '0 20 * * *'  # daily at 20:00 UTC
   workflow_dispatch:       # allow manual runs from the Actions tab
 
 jobs:
