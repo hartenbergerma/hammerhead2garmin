@@ -20,7 +20,7 @@ jobs:
           key: sync-state-${{ github.run_id }}
           restore-keys: sync-state-
 
-      - uses: astral-sh/setup-uv@v8
+      - uses: astral-sh/setup-uv@v8.2.0
 
       - name: Run sync
         env:
